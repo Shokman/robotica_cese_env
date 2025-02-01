@@ -1,6 +1,8 @@
 #!/bin/bash
 # Single script to launch the mycobot with Gazebo, RViz, and MoveIt 2
 
+echo "Starting robot model $ROBOT_MODEL"
+
 cleanup() {
     echo "Cleaning up..."
     sleep 5.0
@@ -18,6 +20,7 @@ ros2 launch mycobot_gazebo mycobot.gazebo.launch.py \
     use_rviz:=false \
     use_robot_state_pub:=true \
     use_sim_time:=true \
+    robot_model:=$ROBOT_MODEL \
     x:=0.0 \
     y:=0.0 \
     z:=0.05 \

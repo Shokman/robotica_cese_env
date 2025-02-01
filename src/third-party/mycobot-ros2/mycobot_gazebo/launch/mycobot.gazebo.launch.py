@@ -43,6 +43,7 @@ def generate_launch_description():
     package_name_moveit = 'mycobot_moveit_config'
 
     default_robot_name = 'mycobot_280'
+    default_robot_model = 'mycobot_280'
     gazebo_models_path = 'models'
     default_world_file = 'pick_and_place_demo.world'
     gazebo_worlds_path = 'worlds'
@@ -64,6 +65,7 @@ def generate_launch_description():
     jsp_gui = LaunchConfiguration('jsp_gui')
     load_controllers = LaunchConfiguration('load_controllers')
     robot_name = LaunchConfiguration('robot_name')
+    robot_model = LaunchConfiguration('robot_model')
     use_rviz = LaunchConfiguration('use_rviz')
     use_camera = LaunchConfiguration('use_camera')
     use_gazebo = LaunchConfiguration('use_gazebo')
@@ -90,6 +92,11 @@ def generate_launch_description():
         name='robot_name',
         default_value=default_robot_name,
         description='The name for the robot')
+
+    declare_robot_model_cmd = DeclareLaunchArgument(
+        name='robot_model',
+        default_value=default_robot_model,
+        description='The robot model')
 
     declare_load_controllers_cmd = DeclareLaunchArgument(
         name='load_controllers',
@@ -246,6 +253,7 @@ def generate_launch_description():
 
     # Declare the launch options
     ld.add_action(declare_robot_name_cmd)
+    ld.add_action(declare_robot_model_cmd)
     ld.add_action(declare_jsp_gui_cmd)
     ld.add_action(declare_load_controllers_cmd)
     ld.add_action(declare_use_camera_cmd)

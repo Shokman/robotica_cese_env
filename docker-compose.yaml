@@ -20,17 +20,23 @@ services:
     volumes:
       - $HOME/.Xauthority:/root/.Xauthority:ro
 
-  sim:
+  moveit-sim-280:
     extends: ros2-desktop
     image: humble-ros-desktop:base
-    command: /root/ros2_ws/src/mycobot_ros2/mycobot_bringup/scripts/mycobot_280_gazebo.sh
+    environment:
+        - ROBOT_MODEL="mycobot_280"
+    command: /root/ros2_ws/src/mycobot_ros2/mycobot_bringup/scripts/mycobot_gazebo_and_moveit.sh
 
-  moveit-sim:
+  moveit-sim-320:
     extends: ros2-desktop
     image: humble-ros-desktop:base
-    command: /root/ros2_ws/src/mycobot_ros2/mycobot_bringup/scripts/mycobot_280_gazebo_and_moveit.sh
+    environment:
+        - ROBOT_MODEL="mycobot_320"
+    command: /root/ros2_ws/src/mycobot_ros2/mycobot_bringup/scripts/mycobot_gazebo_and_moveit.sh
 
-  mtc-demos:
+  dev:
     extends: ros2-desktop
     image: humble-ros-desktop:base
-    command: /root/ros2_ws/src/mycobot_ros2/mycobot_bringup/scripts/mycobot_280_mtc_demos.sh
+    command: /bin/bash
+    volumes:
+      - ./src/mycobot_ros2:/root/ros2_ws/src/mycobot_ros2
