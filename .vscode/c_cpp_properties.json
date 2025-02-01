@@ -1,0 +1,29 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/opt/ros/jazzy/include/**",
+        "/mnt/data/workspace/robotica_cese_env/src/clase4/include/**",
+        "/mnt/data/workspace/robotica_cese_env/src/moveit_task_constructor/core/include/**",
+        "/mnt/data/workspace/robotica_cese_env/src/moveit_task_constructor/demo/include/**",
+        "/mnt/data/workspace/robotica_cese_env/src/moveit_task_constructor/rviz_marker_tools/include/**",
+        "/mnt/data/workspace/robotica_cese_env/src/third-party/mycobot-ros2/mycobot_description/include/**",
+        "/mnt/data/workspace/robotica_cese_env/src/third-party/mycobot-ros2/mycobot_moveit_config/include/**",
+        "/mnt/data/workspace/robotica_cese_env/src/third-party/mycobot-ros2/mycobot_mtc_pick_place_demo/include/**",
+        "/mnt/data/workspace/robotica_cese_env/src/third-party/mycobot-ros2/mycobot_ros2/include/**",
+        "/mnt/data/workspace/robotica_cese_env/src/third-party/mycobot-ros2/mycobot_system_tests/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}
