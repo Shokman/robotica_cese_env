@@ -162,7 +162,7 @@
       <limit effort="${joint_effort}" lower="-2.9321" upper="2.9321" velocity="${joint_velocity}"/>
       <parent link="${prefix}link1"/>
       <child link="${prefix}link2"/>
-      <origin xyz= "0.0 0.0 0.162" rpy = "0 0 0"/> 
+      <origin xyz= "0.0 0.0 0.162" rpy = "0 0 ${pi/2}"/>
       <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
     </joint>
 
@@ -198,7 +198,7 @@
       <limit effort="${joint_effort}" lower="-2.9321" upper="2.9321" velocity="${joint_velocity}"/>
       <parent link="${prefix}link5"/>
       <child link="${prefix}link6"/>
-      <origin xyz="0 -0.084 0" rpy="${pi/2} 0 0"/>
+      <origin xyz="0 -0.084 0" rpy="${pi/2} ${-pi/2} 0"/>
       <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
     </joint>
 
