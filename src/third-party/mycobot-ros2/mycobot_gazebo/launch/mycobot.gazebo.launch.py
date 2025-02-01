@@ -42,8 +42,8 @@ def generate_launch_description():
     package_name_description = 'mycobot_description'
     package_name_moveit = 'mycobot_moveit_config'
 
-    default_robot_name = 'mycobot_280'
     default_robot_model = 'mycobot_280'
+    default_robot_name = default_robot_model
     gazebo_models_path = 'models'
     default_world_file = 'pick_and_place_demo.world'
     gazebo_worlds_path = 'worlds'
