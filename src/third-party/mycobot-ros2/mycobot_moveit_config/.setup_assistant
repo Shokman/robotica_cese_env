@@ -1,9 +1,9 @@
 moveit_setup_assistant_config:
   URDF:
     package: mycobot_description
-    relative_path: urdf/robots/mycobot_280.urdf.xacro
+    relative_path: urdf/robots/mycobot_320.urdf.xacro
   SRDF:
-    relative_path: config/mycobot_280/mycobot_280.srdf
+    relative_path: config/mycobot_320/mycobot_320.srdf
   CONFIG:
     author_name: AutomaticAddison
     author_email: addison@todo.com

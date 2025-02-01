@@ -48,7 +48,7 @@ def generate_launch_description():
     # Declare the launch arguments
     declare_robot_name_cmd = DeclareLaunchArgument(
         name='robot_name',
-        default_value='mycobot_280',
+        default_value='mycobot_320',
         description='Name of the robot to use')
 
     declare_use_sim_time_cmd = DeclareLaunchArgument(
