@@ -37,6 +37,6 @@ xhost + && docker compose up [OPTION] --force-recreate
 ```
 
 Las opciones disponibles son:
-- `sim`: empezar la simulación del brazo únicamente.
-- `moveit-sim`: empezar la simulación y el brazo configurado en `moveit`.
-- `mtc-demos`: ejecuta la demo con el `moveit_task_constructor`.
+- `dev`: empezar el entorno para modificarlo y trabajar con el.
+- `moveit-sim-280`: empezar la simulación y el brazo configurado en `moveit` con el modelo `mycobot_280`.
+- `moveit-sim-320`: empezar la simulación y el brazo configurado en `moveit` con el modelo `mycobot_320`.
