@@ -32,15 +32,28 @@ docker compose build
 ```
 
 ## Para ejecutar una de las simulaciones:
-```
-xhost + && docker compose up [OPTION] --force-recreate
-```
 
 Las opciones disponibles son:
-- `moveit-sim-280`: empezar la simulación y el brazo configurado en `moveit` con el modelo `mycobot_280`.
-- `moveit-sim-320`: empezar la simulación y el brazo configurado en `moveit` con el modelo `mycobot_320`.
-- `dev`: empezar el entorno para modificarlo y trabajar con el, como se explica mas adelante. 
 
+### Mycobot 280
+
+```
+$ xhost + && docker compose up  moveit-sim-280 --force-recreate
+```
+
+Deberia inmediatamente inicializar la simulacion y el panel de control de RViz como se ve:
+
+![](docs/mycobot_280_demo.gif)
+
+### Mycobot 320
+
+```
+$ xhost + && docker compose up  moveit-sim-320 --force-recreate
+```
+
+Deberia inmediatamente inicializar la simulacion y el panel de control de RViz como se ve:
+
+![](docs/mycobot_320_demo.gif)
 
 ## Como usar este repositorio para desarrollo:
 
