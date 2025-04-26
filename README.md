@@ -68,7 +68,7 @@ En una terminal separada nos introducimos en el container.
 $ docker exec -it robotica_cese_env-dev-1 /bin/bash
 ```
 
-En esta forma, cualquier cambio en la carpeta `./src/third-party/mycobot-ros2` se reflejan en la carpeta `/root/ros2_ws/src/mycobot_ros2` adentro de la imagen.
+En esta forma, cualquier cambio en la carpeta `./src/third-party/mycobot-ros2` se reflejan en la carpeta `/root/ros2_ws/src/third-party/mycobot_ros2` adentro de la imagen.
 Asi podemos hacer cualquier cambio que querramos dentro de esa carpeta y ejecutar los cambios en el sistema con el comando desde la segunda terminal:
 
 ```

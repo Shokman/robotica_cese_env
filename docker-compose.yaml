@@ -25,18 +25,22 @@ services:
     image: humble-ros-desktop:base
     environment:
         - ROBOT_MODEL=mycobot_280
-    command: /root/ros2_ws/src/mycobot_ros2/mycobot_bringup/scripts/mycobot_gazebo_and_moveit.sh
+    command: /root/ros2_ws/src/third-party/mycobot-ros2/mycobot_bringup/scripts/mycobot_gazebo_and_moveit.sh
 
   moveit-sim-320:
     extends: ros2-desktop
     image: humble-ros-desktop:base
     environment:
         - ROBOT_MODEL=mycobot_320
-    command: /root/ros2_ws/src/mycobot_ros2/mycobot_bringup/scripts/mycobot_gazebo_and_moveit.sh
+    command: /root/ros2_ws/src/third-party/mycobot-ros2/mycobot_bringup/scripts/mycobot_gazebo_and_moveit.sh
 
   dev:
     extends: ros2-desktop
     image: humble-ros-desktop:base
     command: /bin/bash
     volumes:
+<<<<<<< HEAD
       - ./src/third-party/mycobot-ros2:/root/ros2_ws/src/mycobot_ros2
+=======
+      - ./src:/root/ros2_ws/src
+>>>>>>> 0f9b9da (Add files for class 6)

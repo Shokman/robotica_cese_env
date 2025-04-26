@@ -10,55 +10,14 @@ and processing of URDF/XACRO files and controller configurations.
 :date: November 15, 2024
 """
 import os
+from pathlib import Path
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, OpaqueFunction
+from launch.actions import DeclareLaunchArgument
 from launch.conditions import IfCondition, UnlessCondition
 from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution, PythonExpression
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.substitutions import FindPackageShare
-from ament_index_python.packages import get_package_share_directory
-
-
-def process_ros2_controllers_config(context):
-    """Process the ROS 2 controller configuration yaml file before loading the URDF.
-
-    This function reads a template configuration file, replaces placeholder values
-    with actual configuration, and writes the processed file to both source and
-    install directories.
-
-    Args:
-        context: Launch context containing configuration values
-
-    Returns:
-        list: Empty list as required by OpaqueFunction
-    """
-
-    # Get the configuration values
-    prefix = LaunchConfiguration('prefix').perform(context)
-    flange_link = LaunchConfiguration('flange_link').perform(context)
-    robot_name = LaunchConfiguration('robot_name').perform(context)
-
-    # Define both source and install paths
-    share_config_path = get_package_share_directory('mycobot_moveit_config')
-
-    # Read from source template
-    config_path = os.path.join(share_config_path, 'config', robot_name)
-    template_path = os.path.join(config_path, 'ros2_controllers_template.yaml')
-    with open(template_path, 'r', encoding='utf-8') as file:
-        template_content = file.read()
-
-    # Create processed content (leaving template untouched)
-    processed_content = template_content.replace('${prefix}', prefix)
-    processed_content = processed_content.replace('${flange_link}', flange_link)
-
-    # Write processed content to both source and install directories
-    os.makedirs(config_path, exist_ok=True)
-    output_path = os.path.join(config_path, 'ros2_controllers.yaml')
-    with open(output_path, 'w', encoding='utf-8') as file:
-        file.write(processed_content)
-
-    return []
 
 
 # Define the arguments for the XACRO file
@@ -110,9 +69,6 @@ def generate_launch_description():
 
     # Launch configuration variables
     jsp_gui = LaunchConfiguration('jsp_gui')
-    use_rviz = LaunchConfiguration('use_rviz')
-    rviz_robot = LaunchConfiguration('rviz_robot')
-    use_sim_time = LaunchConfiguration('use_sim_time')
 
     # Declare the launch arguments
     declare_jsp_gui_cmd = DeclareLaunchArgument(
@@ -120,22 +76,6 @@ def generate_launch_description():
         default_value='true',
         choices=['true', 'false'],
         description='Flag to enable joint_state_publisher_gui')
-
-    declare_use_rviz_cmd = DeclareLaunchArgument(
-        name='use_rviz',
-        default_value='true',
-        description='Whether to start RVIZ')
-
-    declare_rviz_robot_cmd = DeclareLaunchArgument(
-        name='rviz_robot',
-        default_value='false',
-        choices=['true', 'false'],
-        description='RViz will be focus on the robot only')
-
-    declare_use_sim_time_cmd = DeclareLaunchArgument(
-        name='use_sim_time',
-        default_value='false',
-        description='Use simulation (Gazebo) clock if true')
 
     urdf_model_filename = PythonExpression(
         ["'", LaunchConfiguration("robot_model"), "' + '.urdf.xacro'"])
@@ -169,7 +109,7 @@ def generate_launch_description():
         name='robot_state_publisher',
         output='screen',
         parameters=[{
-            'use_sim_time': use_sim_time,
+            'use_sim_time': False,
             'robot_description': robot_description_content}])
 
     # Publish the joint state values for the non-fixed joints in the URDF file.
@@ -177,7 +117,7 @@ def generate_launch_description():
         package='joint_state_publisher',
         executable='joint_state_publisher',
         name='joint_state_publisher',
-        parameters=[{'use_sim_time': use_sim_time}],
+        parameters=[{'use_sim_time': False}],
         condition=UnlessCondition(jsp_gui))
 
     # Depending on gui parameter, either launch joint_state_publisher or joint_state_publisher_gui
@@ -185,44 +125,28 @@ def generate_launch_description():
         package='joint_state_publisher_gui',
         executable='joint_state_publisher_gui',
         name='joint_state_publisher_gui',
-        parameters=[{'use_sim_time': use_sim_time}],
+        parameters=[{'use_sim_time': False}],
         condition=IfCondition(jsp_gui))
 
-    # Launch RViz in world coordinates
-    start_rviz_cmd = Node(
-        condition=(IfCondition(use_rviz) and UnlessCondition(rviz_robot)),
-        package='rviz2',
-        executable='rviz2',
-        output='screen',
-        arguments=['-d', rviz_config_path],
-        parameters=[{'use_sim_time': use_sim_time}])
 
     # Launch RViz in base_link coordinates with only the robot
     start_rviz_robot_only_cmd = Node(
-        condition=(IfCondition(use_rviz) and IfCondition(rviz_robot)),
         package='rviz2',
         executable='rviz2',
         output='screen',
         arguments=['-d', rviz_config_robot_only_path],
-        parameters=[{'use_sim_time': use_sim_time}])
+        parameters=[{'use_sim_time': False}])
 
     # Create the launch description and populate
     ld = LaunchDescription(ARGUMENTS)
 
-    # Process the controller configuration before starting nodes
-    ld.add_action(OpaqueFunction(function=process_ros2_controllers_config))
-
     # Declare the launch options
     ld.add_action(declare_jsp_gui_cmd)
-    ld.add_action(declare_use_rviz_cmd)
-    ld.add_action(declare_rviz_robot_cmd)
-    ld.add_action(declare_use_sim_time_cmd)
 
     # Add any actions
     ld.add_action(start_joint_state_publisher_cmd)
     ld.add_action(start_joint_state_publisher_gui_cmd)
     ld.add_action(start_robot_state_publisher_cmd)
-    ld.add_action(start_rviz_cmd)
     ld.add_action(start_rviz_robot_only_cmd)
 
     return ld

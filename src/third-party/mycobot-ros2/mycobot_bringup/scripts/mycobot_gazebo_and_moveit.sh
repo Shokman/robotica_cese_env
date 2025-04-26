@@ -28,8 +28,8 @@ ros2 launch mycobot_gazebo mycobot.gazebo.launch.py \
     pitch:=0.0 \
     yaw:=0.0 &
 
-sed -i "/relative_path: urdf/c\    relative_path: urdf/robots/${ROBOT_MODEL}.urdf.xacro" /root/ros2_ws/src/mycobot_ros2/mycobot_moveit_config/.setup_assistant
-sed -i "/relative_path: config/c\    relative_path: config/${ROBOT_MODEL}/${ROBOT_MODEL}.srdf" /root/ros2_ws/src/mycobot_ros2/mycobot_moveit_config/.setup_assistant
+sed -i "/relative_path: urdf/c\    relative_path: urdf/robots/${ROBOT_MODEL}.urdf.xacro" /root/ros2_ws/src/third-party/mycobot-ros2/mycobot_moveit_config/.setup_assistant
+sed -i "/relative_path: config/c\    relative_path: config/${ROBOT_MODEL}/${ROBOT_MODEL}.srdf" /root/ros2_ws/src/third-party/mycobot-ros2/mycobot_moveit_config/.setup_assistant
 sleep 15
 ros2 launch mycobot_moveit_config move_group.launch.py robot_name:=$ROBOT_MODEL &
 

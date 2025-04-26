@@ -18,10 +18,9 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Create workspace
-RUN mkdir -p /root/ros2_ws
+RUN mkdir -p /root/ros2_ws/src
 WORKDIR /root/ros2_ws/src
-COPY src/third-party/mycobot-ros2 /root/ros2_ws/src/mycobot_ros2
-COPY src/mycobot.repos /root/ros2_ws/src/mycobot.repos
+COPY src /root/ros2_ws/src
 RUN vcs import < mycobot.repos
 
 # Install dependencies
@@ -35,7 +34,7 @@ RUN apt-get update -y && apt-get install -y \
 WORKDIR /root/ros2_ws
 RUN source /opt/ros/${ROS_DISTRO}/setup.bash \
   && rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y \
-  && colcon build --symlink-install
+  && colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --symlink-install
 
 # Configure entrypoint
 COPY ./entrypoint.sh /
