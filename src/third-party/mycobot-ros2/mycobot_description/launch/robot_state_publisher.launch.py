@@ -111,7 +111,6 @@ def generate_launch_description():
     # Launch configuration variables
     jsp_gui = LaunchConfiguration('jsp_gui')
     use_rviz = LaunchConfiguration('use_rviz')
-    rviz_robot = LaunchConfiguration('rviz_robot')
     use_sim_time = LaunchConfiguration('use_sim_time')
 
     # Declare the launch arguments
@@ -125,12 +124,6 @@ def generate_launch_description():
         name='use_rviz',
         default_value='true',
         description='Whether to start RVIZ')
-
-    declare_rviz_robot_cmd = DeclareLaunchArgument(
-        name='rviz_robot',
-        default_value='false',
-        choices=['true', 'false'],
-        description='RViz will be focus on the robot only')
 
     declare_use_sim_time_cmd = DeclareLaunchArgument(
         name='use_sim_time',
@@ -188,22 +181,13 @@ def generate_launch_description():
         parameters=[{'use_sim_time': use_sim_time}],
         condition=IfCondition(jsp_gui))
 
-    # Launch RViz in world coordinates
+    # Launch RViz
     start_rviz_cmd = Node(
-        condition=(IfCondition(use_rviz) and UnlessCondition(rviz_robot)),
+        condition=(IfCondition(use_rviz)),
         package='rviz2',
         executable='rviz2',
         output='screen',
         arguments=['-d', rviz_config_path],
-        parameters=[{'use_sim_time': use_sim_time}])
-
-    # Launch RViz in base_link coordinates with only the robot
-    start_rviz_robot_only_cmd = Node(
-        condition=(IfCondition(use_rviz) and IfCondition(rviz_robot)),
-        package='rviz2',
-        executable='rviz2',
-        output='screen',
-        arguments=['-d', rviz_config_robot_only_path],
         parameters=[{'use_sim_time': use_sim_time}])
 
     # Create the launch description and populate
@@ -215,7 +199,6 @@ def generate_launch_description():
     # Declare the launch options
     ld.add_action(declare_jsp_gui_cmd)
     ld.add_action(declare_use_rviz_cmd)
-    ld.add_action(declare_rviz_robot_cmd)
     ld.add_action(declare_use_sim_time_cmd)
 
     # Add any actions
@@ -223,6 +206,5 @@ def generate_launch_description():
     ld.add_action(start_joint_state_publisher_gui_cmd)
     ld.add_action(start_robot_state_publisher_cmd)
     ld.add_action(start_rviz_cmd)
-    ld.add_action(start_rviz_robot_only_cmd)
 
     return ld

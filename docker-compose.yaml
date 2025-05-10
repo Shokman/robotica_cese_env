@@ -34,6 +34,13 @@ services:
         - ROBOT_MODEL=mycobot_320
     command: /root/ros2_ws/src/third-party/mycobot-ros2/mycobot_bringup/scripts/mycobot_gazebo_and_moveit.sh
 
+  robot-description:
+    extends: ros2-desktop
+    image: humble-ros-desktop:base
+    environment:
+        - ROBOT_MODEL=mycobot_320
+    command: ros2 launch clase6 robot_description.launch.py
+
   dev:
     extends: ros2-desktop
     image: humble-ros-desktop:base

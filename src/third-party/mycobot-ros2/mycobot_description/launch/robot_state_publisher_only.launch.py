@@ -14,7 +14,7 @@ from pathlib import Path
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.conditions import IfCondition, UnlessCondition
-from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution, PythonExpression
+from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution, PythonExpression, EnvironmentVariable
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.substitutions import FindPackageShare
@@ -22,7 +22,7 @@ from launch_ros.substitutions import FindPackageShare
 
 # Define the arguments for the XACRO file
 ARGUMENTS = [
-    DeclareLaunchArgument('robot_name', default_value='mycobot_280',
+    DeclareLaunchArgument('robot_name', default_value=EnvironmentVariable("ROBOT_MODEL"),
                           description='Name of the robot'),
     DeclareLaunchArgument('prefix', default_value='',
                           description='Prefix for robot joints and links'),
@@ -78,13 +78,9 @@ def generate_launch_description():
         description='Flag to enable joint_state_publisher_gui')
 
     urdf_model_filename = PythonExpression(
-        ["'", LaunchConfiguration("robot_model"), "' + '.urdf.xacro'"])
+        ["'", EnvironmentVariable("ROBOT_MODEL"), "' + '.urdf.xacro'"])
     urdf_model_path = PathJoinSubstitution(
         [pkg_share_description, 'urdf', 'robots', urdf_model_filename])
-    rviz_config_filename = PythonExpression(
-        ["'", LaunchConfiguration("robot_model"), "' + '_description.rviz'"])
-    rviz_config_path = PathJoinSubstitution(
-        [pkg_share_description, 'rviz', rviz_config_filename])
     rviz_config_robot_only_path = PathJoinSubstitution(
         [pkg_share_description, 'rviz', 'mycobot_description_only.rviz'])
 
