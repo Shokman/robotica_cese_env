@@ -46,4 +46,4 @@ services:
     image: humble-ros-desktop:base
     command: /bin/bash
     volumes:
-      - ./src/third-party/mycobot-ros2:/root/ros2_ws/src/mycobot_ros2
+      - ./src:/root/ros2_ws/src
