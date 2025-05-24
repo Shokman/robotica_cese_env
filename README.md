@@ -74,3 +74,25 @@ Asi podemos hacer cualquier cambio que querramos dentro de esa carpeta y ejecuta
 ```
 $ ROBOT_MODEL=mycobot_320 /root/ros2_ws/src/mycobot_ros2/mycobot_bringup/scripts/mycobot_gazebo_and_moveit.sh
 ```
+
+### Convertir rosbags de ROS 1 a ROS 2
+
+Desde afuera del docker copiar el dataset a la carpeta `src` en el repositorio.
+
+Una vez en el container usando el modo de desarrollo explicado arriba, en el workspace:
+```
+source .venv/bin/activate
+rosbags-convert --src src/[ros 1 file.bag] --dst src/[nuevo nombre del ros2 bag]
+```
+Una vez que convertimos todos los dataset que queremos, podemos salir del venv tipeando `deactivate`.
+
+### Loguear una terminal adicional al container de docker
+
+Ejecutar en una terminal:
+```
+docker exec -it robotica_cese_env-dev-run-[container id] /bin/bash
+```
+
+Pueden presionar tab dos veces para obtener el container id o usar `docker ps`.
+
+No olvidar de sourcear el repositorio `source install/setup.bash`.

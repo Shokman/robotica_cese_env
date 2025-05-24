@@ -36,6 +36,12 @@ RUN source /opt/ros/${ROS_DISTRO}/setup.bash \
   && rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y \
   && colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --symlink-install
 
+# Create env for converting rosbags
+RUN apt-get update -y && apt-get install -y \
+  python3-pip python3.12-venv \
+  && python3 -m venv .venv && source .venv/bin/activate \
+  && pip3 install rosbags && deactivate
+
 # Configure entrypoint
 COPY ./entrypoint.sh /
 RUN chmod +x  /entrypoint.sh
