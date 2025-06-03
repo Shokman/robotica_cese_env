@@ -8,6 +8,8 @@ SHELL ["/bin/bash", "-c"]
 RUN set -euo pipefail
 ENV DEBIAN_FRONTEND=noninteractive
 
+RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros2-latest-archive-keyring.gpg 
+
 # Get Ubuntu packages
 RUN apt-get update && apt-get install -y \
     build-essential \
